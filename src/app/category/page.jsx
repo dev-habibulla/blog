@@ -2,6 +2,13 @@ import PlainLayout from "@/components/master/Plain-Layout";
 import NewsList from "@/components/news/NewsList";
 import PopularList from "@/components/news/PopularList";
 
+export async function generateMetadata(newsTitles) {
+
+  return( {
+    Tittle:newsTitles
+  })
+}
+
 async function getData(id) {
   let News = (
     await (
@@ -17,6 +24,10 @@ async function getData(id) {
 const Page = async (props) => {
   let id = props.searchParams["id"];
   const data = await getData(id);
+
+  const newsTitles = data.News.map((item) => item.title);
+
+  const metadata = await generateMetadata(newsTitles);
 
   return (
     <PlainLayout>
